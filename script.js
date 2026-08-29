@@ -1,6 +1,140 @@
+// Global Quiz Data & Functions
+const quizQuestions = [
+  {
+    question: "1. Siapa mahasiswi paling manis, ceria, dan favorit banyak orang saat ini?",
+    options: [
+      { key: "A", text: "Ifa Anisahtul Framesti" },
+      { key: "B", text: "Ifa si Bintang Kampus" },
+      { key: "C", text: "Gadis cantik tanggal 29 Agustus" },
+      { key: "D", text: "Semuanya benar & memang sepesona itu!" }
+    ],
+    compliment: "Tepat sekali! Gak bisa dipungkiri memang pesonamu selalu berhasil bikin suasana jadi jauh lebih hangat dan manis. Siap-siap dibuat makin tersenyum ya..."
+  },
+  {
+    question: "2. Apa kebiasaan ajaib seorang Ifa yang selalu bikin orang di sekitarnya bahagia?",
+    options: [
+      { key: "A", text: "Senyum khasnya yang bikin suasana adem" },
+      { key: "B", text: "Kepedulian dan kebaikan hatinya yang tulus" },
+      { key: "C", text: "Semangat positifnya yang gak pernah padam" },
+      { key: "D", text: "Semuanya benar & selalu bikin kangen!" }
+    ],
+    compliment: "Setuju banget! Kebaikan dan perhatian tulusmu itu langka banget. Beruntung banget siapapun orang yang ada di sekitar kamu!"
+  },
+  {
+    question: "3. Di usia ke-22 tahun ini, apa hal terindah yang paling pantas didapatkan oleh Ifa?",
+    options: [
+      { key: "A", text: "Kebahagiaan tanpa batas setiap hari" },
+      { key: "B", text: "Kelancaran kuliah & kesuksesan impian" },
+      { key: "C", text: "Dikelilingi cinta & orang-orang tulus" },
+      { key: "D", text: "Semua doa terbaik di dunia ini!" }
+    ],
+    compliment: "Bener banget! Kamu selayak itu untuk mendapatkan seluruh kebahagiaan dan keindahan dunia di usia 22 tahun ini. Selamat menikmati kejutan spesialmu!"
+  }
+];
+
+let currentQuizIndex = 0;
+
+// Global Functions attached to window so HTML onclick always works
+window.startQuiz = function() {
+  const quizWelcomeCard = document.getElementById('quizWelcomeCard');
+  const quizQuestionCard = document.getElementById('quizQuestionCard');
+  if (quizWelcomeCard) quizWelcomeCard.style.display = 'none';
+  if (quizQuestionCard) quizQuestionCard.style.display = 'block';
+  currentQuizIndex = 0;
+  renderQuizQuestion(0);
+};
+
+window.selectQuizOption = function(optIndex) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    playPianoNote(523.25, 0.4, 0, 0.1);
+  } catch(e) {}
+
+  const qData = quizQuestions[currentQuizIndex];
+  if (qData) {
+    showComplimentModal(qData.compliment, currentQuizIndex === quizQuestions.length - 1);
+  }
+};
+
+window.nextCompliment = function() {
+  const complimentModal = document.getElementById('complimentModal');
+  if (complimentModal) complimentModal.classList.remove('active');
+
+  if (currentQuizIndex < quizQuestions.length - 1) {
+    currentQuizIndex++;
+    renderQuizQuestion(currentQuizIndex);
+  } else {
+    // Finished all 3 quiz questions! Open main website
+    const overlay = document.getElementById('introOverlay');
+    if (overlay) overlay.classList.add('hidden');
+
+    launchConfetti();
+
+    try {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      startMelody();
+
+      const musicBtn = document.getElementById('musicBtn');
+      if (musicBtn) {
+        musicBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        musicBtn.style.color = '#4ea8de';
+      }
+    } catch(e) {}
+  }
+};
+
+function renderQuizQuestion(index) {
+  const qData = quizQuestions[index];
+  const stepBadge = document.getElementById('quizStepBadge');
+  const progressFill = document.getElementById('quizProgressFill');
+  const questionTitle = document.getElementById('quizQuestionTitle');
+  const optionsGrid = document.getElementById('quizOptionsGrid');
+
+  if (!qData) return;
+
+  if (stepBadge) stepBadge.textContent = `Pertanyaan ${index + 1} dari 3`;
+  if (progressFill) progressFill.style.width = `${((index + 1) / 3) * 100}%`;
+  if (questionTitle) questionTitle.textContent = qData.question;
+  
+  if (optionsGrid) {
+    optionsGrid.innerHTML = '';
+    qData.options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt-btn';
+      btn.setAttribute('onclick', `selectQuizOption(${idx})`);
+      btn.innerHTML = `
+        <span class="quiz-opt-badge">${opt.key}</span>
+        <span>${escapeHtml(opt.text)}</span>
+      `;
+      optionsGrid.appendChild(btn);
+    });
+  }
+}
+
+function showComplimentModal(text, isLast) {
+  const modal = document.getElementById('complimentModal');
+  const compText = document.getElementById('complimentText');
+  const compNextBtn = document.getElementById('complimentNextBtn');
+
+  if (!modal) return;
+
+  if (compText) compText.textContent = text;
+  if (compNextBtn) {
+    if (isLast) {
+      compNextBtn.querySelector('span').textContent = 'Buka Kejutan Utama 🎉';
+    } else {
+      compNextBtn.querySelector('span').textContent = `Lanjut ke Pertanyaan ${currentQuizIndex + 2}`;
+    }
+  }
+
+  modal.classList.add('active');
+  launchConfetti();
+}
+
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
-  initIntroOverlay();
   initHeroAnimation();
   initBgCanvas();
   initCursorGlow();
@@ -11,35 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initWishBox();
   initLightbox();
 });
-
-/* ===================================================
-   0. Opening Intro Splash Screen Transition
-   =================================================== */
-function initIntroOverlay() {
-  const overlay = document.getElementById('introOverlay');
-  const openBtn = document.getElementById('openIntroBtn');
-
-  if (!openBtn || !overlay) return;
-
-  openBtn.addEventListener('click', () => {
-    overlay.classList.add('hidden');
-    
-    // Launch opening celebration confetti
-    launchConfetti();
-
-    // Auto play emotional birthday piano melody
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    startMelody();
-
-    const musicBtn = document.getElementById('musicBtn');
-    if (musicBtn) {
-      musicBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-      musicBtn.style.color = '#4ea8de';
-    }
-  });
-}
 
 /* ===================================================
    1. Hero Card Entrance Animation (GSAP)
@@ -275,7 +380,6 @@ function initProgressBar() {
 
 /* ===================================================
    6. Rich Emotional Piano Birthday Synthesizer
-   (Nuansa Terharu, Emosional, Bittersweet & Penuh Semangat)
    =================================================== */
 let audioCtx = null;
 let isPlayingMelody = false;
@@ -302,14 +406,12 @@ function initAudioSynthesizer() {
   });
 }
 
-// Warm acoustic piano note synthesis with harmonics & warm decay
 function playPianoNote(freq, duration, delay = 0, volume = 0.12) {
   if (!audioCtx) return;
   setTimeout(() => {
     try {
       const now = audioCtx.currentTime;
 
-      // Fundamental oscillator (Warm triangle/sine mix)
       const osc1 = audioCtx.createOscillator();
       const osc2 = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -318,9 +420,8 @@ function playPianoNote(freq, duration, delay = 0, volume = 0.12) {
       osc1.frequency.setValueAtTime(freq, now);
 
       osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(freq * 2, now); // Warm 1st overtone
+      osc2.frequency.setValueAtTime(freq * 2, now);
 
-      // Attack, decay, sustain envelope for realistic piano touch
       gain.gain.setValueAtTime(0.001, now);
       gain.gain.linearRampToValueAtTime(volume, now + 0.04);
       gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
@@ -339,7 +440,6 @@ function playPianoNote(freq, duration, delay = 0, volume = 0.12) {
   }, delay);
 }
 
-// Play arpeggiated piano chord for emotional bittersweet background depth
 function playChordArpeggio(chordNotes, duration, delay) {
   chordNotes.forEach((freq, idx) => {
     playPianoNote(freq, duration, delay + (idx * 80), 0.06);
@@ -350,41 +450,35 @@ function startMelody() {
   if (isPlayingMelody) return;
   isPlayingMelody = true;
 
-  // Emotional Bittersweet & Inspiring Birthday Piano Sequence
-  // Frequencies: G3, C4, E4, G4, A4, B4, C5, D5, E5, F5, G5
   const emotionalSequence = [
-    // Intro: Bittersweet Arpeggio (Am -> F -> C -> G)
-    { chord: [220, 261.63, 329.63], mel: 392, d: 450 },  // G4
-    { chord: [], mel: 392, d: 350 },                    // G4
-    { chord: [174.61, 220, 261.63], mel: 440, d: 600 },  // A4 (Nostalgic shift)
-    { chord: [], mel: 392, d: 600 },                    // G4
-    { chord: [130.81, 164.81, 196.00], mel: 523.25, d: 650 }, // C5
-    { chord: [], mel: 493.88, d: 1100 },                // B4 (Heartfelt pause)
+    { chord: [220, 261.63, 329.63], mel: 392, d: 450 },
+    { chord: [], mel: 392, d: 350 },
+    { chord: [174.61, 220, 261.63], mel: 440, d: 600 },
+    { chord: [], mel: 392, d: 600 },
+    { chord: [130.81, 164.81, 196.00], mel: 523.25, d: 650 },
+    { chord: [], mel: 493.88, d: 1100 },
 
-    // Phrase 2: Building Hope & Warmth
-    { chord: [220, 261.63, 329.63], mel: 392, d: 450 },  // G4
-    { chord: [], mel: 392, d: 350 },                    // G4
-    { chord: [174.61, 220, 261.63], mel: 440, d: 600 },  // A4
-    { chord: [], mel: 392, d: 600 },                    // G4
-    { chord: [196.00, 246.94, 293.66], mel: 587.33, d: 650 }, // D5
-    { chord: [], mel: 523.25, d: 1100 },                // C5
+    { chord: [220, 261.63, 329.63], mel: 392, d: 450 },
+    { chord: [], mel: 392, d: 350 },
+    { chord: [174.61, 220, 261.63], mel: 440, d: 600 },
+    { chord: [], mel: 392, d: 600 },
+    { chord: [196.00, 246.94, 293.66], mel: 587.33, d: 650 },
+    { chord: [], mel: 523.25, d: 1100 },
 
-    // Phrase 3: Emotional Peak (Uplifting & Inspiring)
-    { chord: [130.81, 164.81, 196.00], mel: 392, d: 450 },  // G4
-    { chord: [], mel: 392, d: 350 },                    // G4
-    { chord: [349.23, 440, 523.25], mel: 783.99, d: 650 },  // G5 (High emotion)
-    { chord: [329.63, 392, 523.25], mel: 659.25, d: 650 },  // E5
-    { chord: [261.63, 329.63, 392], mel: 523.25, d: 650 },  // C5
-    { chord: [246.94, 293.66, 392], mel: 493.88, d: 650 },  // B4
-    { chord: [220, 261.63, 329.63], mel: 440, d: 1200 },    // A4 (Deep emotional resolution)
+    { chord: [130.81, 164.81, 196.00], mel: 392, d: 450 },
+    { chord: [], mel: 392, d: 350 },
+    { chord: [349.23, 440, 523.25], mel: 783.99, d: 650 },
+    { chord: [329.63, 392, 523.25], mel: 659.25, d: 650 },
+    { chord: [261.63, 329.63, 392], mel: 523.25, d: 650 },
+    { chord: [246.94, 293.66, 392], mel: 493.88, d: 650 },
+    { chord: [220, 261.63, 329.63], mel: 440, d: 1200 },
 
-    // Phrase 4: Celebration Finale (Full Spirit)
-    { chord: [174.61, 220, 261.63], mel: 698.46, d: 450 },  // F5
-    { chord: [], mel: 698.46, d: 350 },                    // F5
-    { chord: [130.81, 164.81, 196.00], mel: 659.25, d: 650 }, // E5
-    { chord: [], mel: 523.25, d: 650 },                    // C5
-    { chord: [196.00, 246.94, 293.66], mel: 587.33, d: 750 }, // D5
-    { chord: [130.81, 164.81, 196.00, 261.63], mel: 523.25, d: 1600 } // C5 (Warm resolution chord)
+    { chord: [174.61, 220, 261.63], mel: 698.46, d: 450 },
+    { chord: [], mel: 698.46, d: 350 },
+    { chord: [130.81, 164.81, 196.00], mel: 659.25, d: 650 },
+    { chord: [], mel: 523.25, d: 650 },
+    { chord: [196.00, 246.94, 293.66], mel: 587.33, d: 750 },
+    { chord: [130.81, 164.81, 196.00, 261.63], mel: 523.25, d: 1600 }
   ];
 
   const loopMelody = () => {
@@ -419,7 +513,6 @@ function initCakeCandles() {
   blowBtn.addEventListener('click', () => {
     flames.forEach(f => f.classList.add('extinguished'));
 
-    // Trigger explosive confetti celebration
     launchConfetti();
 
     blowBtn.innerHTML = 'Lilin Telah Ditiup! Selamat Ulang Tahun, Ifa!';
