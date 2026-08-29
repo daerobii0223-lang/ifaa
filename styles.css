@@ -209,44 +209,60 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(12px);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(16px);
   z-index: 1000;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
 }
 
 .compliment-modal.active {
-  display: flex;
-  animation: fadeIn 0.3s ease;
+  opacity: 1;
+  visibility: visible;
 }
 
 .compliment-card {
-  background: white;
-  padding: 40px 32px;
-  border-radius: 36px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 42px 36px;
+  border-radius: 40px;
   max-width: 480px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 50px rgba(255, 133, 161, 0.35);
-  border: 4px solid var(--pink-light);
-  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 25px 60px rgba(255, 133, 161, 0.4);
+  border: 4px solid white;
+  transform: scale(0.5) translateY(40px) rotate(-6deg);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.compliment-modal.active .compliment-card {
+  transform: scale(1) translateY(0) rotate(0deg);
+  opacity: 1;
 }
 
 .compliment-icon {
-  width: 68px;
-  height: 68px;
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffd166, #ff85a1);
+  background: linear-gradient(135deg, #ff85a1, #ffd166);
   color: white;
-  font-size: 1.8rem;
+  font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px;
-  box-shadow: 0 8px 20px rgba(255, 209, 102, 0.4);
+  margin: 0 auto 18px;
+  box-shadow: 0 10px 25px rgba(255, 133, 161, 0.45);
+  animation: bounceHeart 1.8s infinite cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bounceHeart {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.15) rotate(8deg); }
 }
 
 .compliment-title {
