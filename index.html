@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy 22nd Birthday, Ifa Anisahtul Framesti</title>
+
+  <!-- Google Fonts: Fredoka, Quicksand, Dancing Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- GSAP & ScrollTrigger Animation Libraries CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Vanilla Tilt CDN for 3D Card Hover -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- OPENING INTRO OVERLAY (SPLASH SCREEN) -->
+  <div class="intro-overlay" id="introOverlay">
+    <div class="intro-card">
+      <div class="intro-icon"><i class="fas fa-gift"></i></div>
+      <span class="badge-tag badge-pink"><i class="fas fa-sparkles"></i> Special Gift for Ifa</span>
+      <h2 class="intro-title">A Birthday Surprise Story</h2>
+      <p class="intro-subtitle">Untuk <strong>Ifa Anisahtul Framesti</strong> di hari ulang tahunnya yang ke-22.</p>
+      
+      <button class="btn-primary" id="openIntroBtn">
+        <i class="fas fa-envelope-open-text"></i>
+        <span>Buka Kejutan Ulang Tahun</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cursor Glow Overlay -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Top Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- Background Interactive Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Floating Audio Control -->
+  <nav class="nav-float">
+    <button class="btn-icon" id="musicBtn" title="Putar Musik Ulang Tahun">
+      <i class="fas fa-music"></i>
+    </button>
+  </nav>
+
+  <!-- SECTION 1: HERO COVER -->
+  <header class="hero-section" id="hero">
+    <div class="hero-card" id="heroCard">
+      <div class="washi-tape tape-top-left"></div>
+      <div class="washi-tape tape-top-right"></div>
+      
+      <span class="badge-tag badge-pink"><i class="fas fa-sparkles"></i> Special Celebration Day</span>
+      
+      <h1 class="hero-title">Happy 22nd Birthday,<br>Ifa Anisahtul Framesti</h1>
+      
+      <div class="age-badge">
+        <span>29 Agustus • Turning 22 Years Old</span>
+      </div>
+
+      <p class="hero-subtitle">
+        "Usia adalah lukisan waktu, dan di balik setiap senyuman serta jejak langkahmu ada jiwa yang selalu menginspirasi dan menghidupkan dunia."
+      </p>
+
+      <a href="#story" class="btn-primary">
+        <span>Jelajahi Cerita Ifa</span>
+        <i class="fas fa-arrow-down"></i>
+      </a>
+
+      <!-- Hero Photo Preview Stack -->
+      <div class="hero-photo-preview">
+        <img src="foto1.jpeg" alt="Ifa Preview 1" class="hero-thumb">
+        <img src="foto2.jpeg" alt="Ifa Preview 2" class="hero-thumb">
+        <img src="foto3.jpeg" alt="Ifa Preview 3" class="hero-thumb">
+        <img src="foto4.jpeg" alt="Ifa Preview 4" class="hero-thumb">
+        <img src="foto5.jpeg" alt="Ifa Preview 5" class="hero-thumb">
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN STORY CONTAINER -->
+  <main class="story-container" id="story">
+
+    <!-- PHOTO STORY 1: MAHASISWI AKTIF -->
+    <section class="story-card" data-tilt data-tilt-max="6" data-tilt-speed="400">
+      <div class="polaroid-frame cute-polaroid-entry">
+        <div class="washi-tape tape-top-left"></div>
+        <div class="polaroid-img-wrapper">
+          <img src="foto1.jpeg" alt="Ifa Anisahtul Framesti - Mahasiswi Aktif" class="polaroid-img">
+        </div>
+        <div class="polaroid-caption">Mahasiswi Aktif & Penuh Talenta</div>
+      </div>
+
+      <div class="story-content">
+        <span class="story-number">01</span>
+        <span class="badge-tag badge-blue">Kampus & Inspirasi</span>
+        <h2 class="story-title">Sosok Bersemangat & Penuh Dedikasi</h2>
+        <p class="story-desc">
+          Sebagai seorang mahasiswi yang aktif di kampus, Ifa selalu memancarkan energi positif dalam setiap kegiatan. Kegigihan, ide-ide kreatif, dan semangat belajar yang luar biasa menjadikannya sosok yang menginspirasi teman-teman di sekitarnya.
+        </p>
+        <div class="story-quote">
+          "Teruslah bersinar dan mengejar impian setinggi langit, Ifa! Langkahmu hari ini adalah fondasi masa depan yang cerah."
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO STORY 2: PESONA CERIA -->
+    <section class="story-card reverse" data-tilt data-tilt-max="6" data-tilt-speed="400">
+      <div class="polaroid-frame cute-polaroid-entry">
+        <div class="washi-tape tape-top-right"></div>
+        <div class="polaroid-img-wrapper">
+          <img src="foto2.jpeg" alt="Ifa Senyum Ceria" class="polaroid-img">
+        </div>
+        <div class="polaroid-caption">Pesonamu Yang Selalu Ceria</div>
+      </div>
+
+      <div class="story-content">
+        <span class="story-number">02</span>
+        <span class="badge-tag badge-pink">Ceria & Hangat</span>
+        <h2 class="story-title">Senyuman Yang Membawa Kebahagiaan</h2>
+        <p class="story-desc">
+          Salah satu hal terindah dari Ifa adalah senyum cerianya yang tidak pernah pudar. Kehadirannya selalu bisa menghidupkan suasana, mencairkan tawa, dan memberikan rasa hangat bagi siapa saja yang berada di dekatnya.
+        </p>
+        <div class="story-quote">
+          "Senyummu adalah pelangi di hari yang redup. Jangan pernah berhenti tertawa dan berbagi kebahagiaan!"
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO STORY 3: KEBAIKAN HATI -->
+    <section class="story-card" data-tilt data-tilt-max="6" data-tilt-speed="400">
+      <div class="polaroid-frame cute-polaroid-entry">
+        <div class="washi-tape tape-top-left"></div>
+        <div class="polaroid-img-wrapper">
+          <img src="foto3.jpeg" alt="Ifa Hati Yang Baik" class="polaroid-img">
+        </div>
+        <div class="polaroid-caption">Hati Yang Baik & Peduli</div>
+      </div>
+
+      <div class="story-content">
+        <span class="story-number">03</span>
+        <span class="badge-tag badge-purple">Tulus & Peduli</span>
+        <h2 class="story-title">Kepedulian Tulus Kepada Sekitar</h2>
+        <p class="story-desc">
+          Bukan hanya ceria dan aktif, Ifa dikenal memiliki kepekaan dan kepedulian tinggi (care) terhadap teman, keluarga, dan lingkungan sekitarnya. Kebaikan hatinya selalu terasa nyata melalui perhatian kecil yang sangat bermakna.
+        </p>
+        <div class="story-quote">
+          "Kebaikan hati yang tulus adalah kecantikan sejati yang tidak akan pernah pudar oleh waktu."
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO STORY 4: USIA 22 TAHUN -->
+    <section class="story-card reverse" data-tilt data-tilt-max="6" data-tilt-speed="400">
+      <div class="polaroid-frame cute-polaroid-entry">
+        <div class="washi-tape tape-top-right"></div>
+        <div class="polaroid-img-wrapper">
+          <img src="foto4.jpeg" alt="Ifa Usia 22 Tahun" class="polaroid-img">
+        </div>
+        <div class="polaroid-caption">Langkah Anggun di Usia 22</div>
+      </div>
+
+      <div class="story-content">
+        <span class="story-number">04</span>
+        <span class="badge-tag badge-pink">Milestone Usia</span>
+        <h2 class="story-title">Menyambut Usia 22 Dengan Rasa Syukur</h2>
+        <p class="story-desc">
+          Tanggal 29 Agustus ini menandai perjalanan indah usia ke-22 tahun bagi Ifa. Semakin bertambahnya usia, makin tampak kedewasaan, keanggunan, serta pemikiran yang semakin matang dalam meraih cita-cita.
+        </p>
+        <div class="story-quote">
+          "Usia 22 adalah awal dari babak baru yang lebih spektakuler! Semoga setiap harapan dan impianmu menjadi kenyataan."
+        </div>
+      </div>
+    </section>
+
+    <!-- PHOTO STORY 5: FINALE SHOWCASE -->
+    <section class="story-card" data-tilt data-tilt-max="6" data-tilt-speed="400">
+      <div class="polaroid-frame cute-polaroid-entry">
+        <div class="washi-tape tape-top-left"></div>
+        <div class="polaroid-img-wrapper">
+          <img src="foto5.jpeg" alt="Ifa Anisahtul Framesti Birthday Wish" class="polaroid-img">
+        </div>
+        <div class="polaroid-caption">Harapan & Doa Terindah</div>
+      </div>
+
+      <div class="story-content">
+        <span class="story-number">05</span>
+        <span class="badge-tag badge-blue">Harapan Masa Depan</span>
+        <h2 class="story-title">Doa Terbaik Untuk Langkah Selanjutnya</h2>
+        <p class="story-desc">
+          Di hari istimewa ini, teriring doa tertulus: Semoga Ifa senantiasa diberikan kesehatan, kelancaran dalam perkuliahan hingga meraih gelar impian, dikelilingi orang-orang yang tulus mencintai, dan selalu bahagia!
+        </p>
+        <div class="story-quote">
+          "Happy 22nd Birthday, Ifa Anisahtul Framesti! You deserve all the magical love and joy in the world!"
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE CAKE & CANDLE BLOW SECTION -->
+    <section class="cake-section" id="cakeSection">
+      <span class="badge-tag badge-pink">Momen Tiup Lilin</span>
+      <h2 style="font-family:'Fredoka', cursive; font-size:2.2rem; margin-top:10px; color:var(--text-dark);">
+        Kue Ulang Tahun Ke-22 Untuk Ifa
+      </h2>
+      <p style="color:var(--text-muted); margin-bottom:20px;">
+        Klik tombol di bawah untuk meniup lilin dan merayakan pesta kembang api!
+      </p>
+
+      <!-- 2D Cute Cake -->
+      <div class="cake-container">
+        <div class="candles-row">
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+          <div class="candle"><div class="flame"></div></div>
+        </div>
+        <div class="cake-top"><div class="cake-frosting"></div></div>
+        <div class="cake-middle"></div>
+        <div class="cake-base"></div>
+      </div>
+
+      <button class="btn-primary" id="blowBtn" style="margin-top:20px;">
+        <i class="fas fa-wind"></i>
+        <span>Tiup Lilin Ulang Tahun</span>
+      </button>
+    </section>
+
+    <!-- WISHES & MESSAGE BOX SECTION -->
+    <section class="wishes-section">
+      <div class="wish-input-card">
+        <h3 style="font-family:'Fredoka', cursive; font-size:1.8rem; color:var(--pink-primary); margin-bottom:12px;">
+          Kirimkan Doa & Ucapan
+        </h3>
+        <p style="color:var(--text-muted); margin-bottom:20px;">
+          Tuliskan harapan dan doa terbaikmu untuk ulang tahun Ifa yang ke-22 tahun ini!
+        </p>
+        
+        <input type="text" id="wishNameInput" placeholder="Nama Kamu (cth: Sahabat Campus / Teman Baik)" style="width:100%; padding:14px; border:2px solid var(--pink-light); border-radius:12px; font-family:inherit; margin-bottom:12px; outline:none;">
+        
+        <textarea id="wishTextarea" class="wish-textarea" placeholder="Tulis ucapan ulang tahun di sini..."></textarea>
+        
+        <button class="btn-primary" id="sendWishBtn" style="margin-top:16px;">
+          <i class="fas fa-paper-plane"></i>
+          <span>Kirim Ucapan</span>
+        </button>
+
+        <div class="wishes-grid" id="wishesGrid">
+          <div class="wish-card-item">
+            <div style="font-weight:700; color:var(--pink-primary); margin-bottom:6px; display:flex; justify-content:space-between;">
+              <span>Bestie Campus</span>
+              <span style="font-size:0.8rem; color:#aaa;">Hari Ini</span>
+            </div>
+            <p style="font-size:0.95rem; line-height:1.5; color:#555;">
+              "Happy 22nd Birthday Ifa! Tetap jadi mahasiswi paling kece, ceria, dan peduli sama kita semua ya! Sukses terus kuliahnya!"
+            </p>
+          </div>
+
+          <div class="wish-card-item">
+            <div style="font-weight:700; color:var(--blue-primary); margin-bottom:6px; display:flex; justify-content:space-between;">
+              <span>Sahabat Setia</span>
+              <span style="font-size:0.8rem; color:#aaa;">Hari Ini</span>
+            </div>
+            <p style="font-size:0.95rem; line-height:1.5; color:#555;">
+              "Selamat ulang tahun ke-22 Ifa Anisahtul Framesti! Semoga selalu sehat, makin berkah usianya, dan semua cita-cita terwujud!"
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- LIGHTBOX MODAL -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose">&times;</button>
+      <img src="" alt="Zoom Photo" class="lightbox-img" id="lightboxImg">
+      <div class="lightbox-caption-text" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Crafted with love for <strong>Ifa Anisahtul Framesti</strong>'s 22nd Birthday Celebration</p>
+    <p style="font-size:0.85rem; margin-top:6px; color:#a0a0a0;">29 Agustus • Pink & Sky Blue Canvas Theme</p>
+  </footer>
+
+  <!-- Custom JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
